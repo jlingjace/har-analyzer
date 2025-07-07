@@ -5,16 +5,17 @@ import {
   UploadOutlined,
   BarChartOutlined,
   HistoryOutlined,
+  SettingOutlined,
   QuestionCircleOutlined,
 } from '@ant-design/icons';
-import { useAppStore, useAnalysisResult, useHistory } from '@/stores/appStore';
+import { useAppStore, useAnalysisResult } from '@/stores/appStore';
 import styled from 'styled-components';
 
 const { Sider } = Layout;
 
 const StyledSider = styled(Sider)`
-  background: ${props => props.theme.mode === 'dark' ? '#001529' : '#fff'};
-  border-right: 1px solid ${props => props.theme.mode === 'dark' ? '#303030' : '#f0f0f0'};
+  background: ${props => props.theme === 'dark' ? '#001529' : '#fff'};
+  border-right: 1px solid ${props => props.theme === 'dark' ? '#303030' : '#f0f0f0'};
   
   .ant-menu {
     border-right: none;
@@ -24,9 +25,9 @@ const StyledSider = styled(Sider)`
 const AppSider: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { theme } = useAppStore();
+  const { theme, getHistoryList } = useAppStore();
   const analysisResult = useAnalysisResult();
-  const history = useHistory();
+  const history = getHistoryList();
 
   const menuItems = [
     {
@@ -69,6 +70,11 @@ const AppSider: React.FC = () => {
       ),
     },
     {
+      key: '/settings',
+      icon: <SettingOutlined />,
+      label: '存储设置',
+    },
+    {
       key: '/help',
       icon: <QuestionCircleOutlined />,
       label: '使用帮助',
@@ -83,7 +89,6 @@ const AppSider: React.FC = () => {
     <StyledSider 
       width={250} 
       theme={theme}
-      theme={{ mode: theme }}
     >
       <Menu
         mode="inline"

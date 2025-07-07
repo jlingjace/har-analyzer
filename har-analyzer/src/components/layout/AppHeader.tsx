@@ -16,8 +16,8 @@ const StyledHeader = styled(Header)`
   align-items: center;
   justify-content: space-between;
   padding: 0 24px;
-  background: ${props => props.theme.mode === 'dark' ? '#001529' : '#fff'};
-  border-bottom: 1px solid ${props => props.theme.mode === 'dark' ? '#303030' : '#f0f0f0'};
+  background: ${props => props.theme === 'dark' ? '#001529' : '#fff'};
+  border-bottom: 1px solid ${props => props.theme === 'dark' ? '#303030' : '#f0f0f0'};
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 `;
 

@@ -315,6 +315,10 @@ export interface AnalysisRecord {
   fileSize: number;
   analyzedAt: Date;
   summary: AnalysisSummary;
+  storageLocation: 'indexeddb' | 'localstorage' | 'memory';
+  hasFullData: boolean;
+  lastAccessed: number;
+  priority: 'high' | 'medium' | 'low';
 }
 
 // 工具类型

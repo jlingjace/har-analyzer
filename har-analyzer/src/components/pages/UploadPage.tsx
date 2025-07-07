@@ -188,7 +188,7 @@ const UploadPage: React.FC = () => {
           <Step
             status="finish"
             title="打开浏览器开发者工具"
-            description="在网页中按 F12 键，或右键点击页面选择"检查""
+            description="在网页中按 F12 键，或右键点击页面选择'检查'"
             icon={<CheckCircleOutlined />}
           />
           <Step
@@ -206,7 +206,7 @@ const UploadPage: React.FC = () => {
           <Step
             status="finish"
             title="导出 HAR 文件"
-            description="右键点击请求列表，选择"Save all as HAR with content""
+            description="右键点击请求列表，选择'Save all as HAR with content'"
             icon={<CheckCircleOutlined />}
           />
         </Steps>

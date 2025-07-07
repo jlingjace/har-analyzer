@@ -18,9 +18,10 @@ import {
   BarChartOutlined,
   ExclamationCircleOutlined
 } from '@ant-design/icons';
-import { useHistory, useAppStore } from '@/stores/appStore';
+import { useNavigate } from 'react-router-dom';
+import { useAppStore } from '@/stores/appStore';
 import type { AnalysisRecord } from '@/types/har';
-import filesize from 'filesize';
+import { filesize } from 'filesize';
 import styled from 'styled-components';
 
 const { Title, Text } = Typography;
@@ -44,22 +45,43 @@ const StatTag = styled(Tag)`
 `;
 
 const HistoryPage: React.FC = () => {
-  const history = useHistory();
-  const { removeFromHistory, clearHistory, loadFromHistory } = useAppStore();
+  const navigate = useNavigate();
+  const { 
+    getHistoryList, 
+    deleteHistoryItem, 
+    clearAllHistory, 
+    loadFromHistory 
+  } = useAppStore();
+  
+  const history = getHistoryList();
 
-  const handleRemoveItem = (id: string) => {
-    removeFromHistory(id);
-    message.success('记录已删除');
+  const handleRemoveItem = async (id: string) => {
+    try {
+      await deleteHistoryItem(id);
+      message.success('记录已删除');
+    } catch (error) {
+      message.error('删除失败');
+    }
   };
 
-  const handleClearAll = () => {
-    clearHistory();
-    message.success('历史记录已清空');
+  const handleClearAll = async () => {
+    try {
+      await clearAllHistory();
+      message.success('历史记录已清空');
+    } catch (error) {
+      message.error('清空失败');
+    }
   };
 
-  const handleLoadRecord = (record: AnalysisRecord) => {
-    loadFromHistory(record);
-    message.info('请重新上传 HAR 文件查看完整分析结果');
+  const handleLoadRecord = async (id: string) => {
+    try {
+      await loadFromHistory(id);
+      message.success('分析结果已加载，正在跳转...');
+      // 加载成功后跳转到分析结果页面
+      navigate('/analysis');
+    } catch (error) {
+      message.error('加载失败，请重新上传 HAR 文件');
+    }
   };
 
   const getRiskLevel = (errorRate: number) => {
@@ -140,6 +162,13 @@ const HistoryPage: React.FC = () => {
                       <Text type="secondary" style={{ fontSize: 12 }}>
                         {filesize(record.fileSize)}
                       </Text>
+                      <Tag color={record.hasFullData ? "green" : "orange"}>
+                        {record.hasFullData ? "完整缓存" : "基础缓存"}
+                      </Tag>
+                      <Tag color="blue">
+                        {record.storageLocation === 'indexeddb' ? 'IndexedDB' : 
+                         record.storageLocation === 'localstorage' ? 'LocalStorage' : '内存'}
+                      </Tag>
                     </Space>
                     <Text type="secondary" style={{ fontSize: 12 }}>
                       {record.analyzedAt.toLocaleString()}
@@ -149,11 +178,11 @@ const HistoryPage: React.FC = () => {
                 actions={[
                   <Button 
                     key="view" 
-                    type="link" 
+                    type="primary"
                     icon={<BarChartOutlined />}
-                    onClick={() => handleLoadRecord(record)}
+                    onClick={() => handleLoadRecord(record.id)}
                   >
-                    查看
+                    查看详细分析
                   </Button>,
                   <Popconfirm
                     key="delete"
@@ -200,7 +229,7 @@ const HistoryPage: React.FC = () => {
                     {record.summary.errorRate.toFixed(2)}%
                   </Descriptions.Item>
                   <Descriptions.Item label="传输总量">
-                    {filesize(record.summary.totalBytes)}
+                    {filesize(record.summary.totalBytes).toString()}
                   </Descriptions.Item>
                   <Descriptions.Item label="涉及域名">
                     {record.summary.uniqueDomains} 个

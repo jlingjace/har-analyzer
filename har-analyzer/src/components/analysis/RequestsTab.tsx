@@ -4,7 +4,7 @@ import { SearchOutlined, LinkOutlined, ClockCircleOutlined } from '@ant-design/i
 import { useAnalysisResult } from '@/stores/appStore';
 import type { ColumnsType } from 'antd/es/table';
 import type { SlowRequest } from '@/types/har';
-import filesize from 'filesize';
+import { filesize } from 'filesize';
 
 const { Search } = Input;
 const { Option } = Select;

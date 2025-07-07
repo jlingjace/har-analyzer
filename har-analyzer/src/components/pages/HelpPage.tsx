@@ -73,10 +73,10 @@ const HelpPage: React.FC = () => {
       label: '如何获取 HAR 文件？',
       children: (
         <Steps direction="vertical" size="small">
-          <Step title="打开开发者工具" description="在浏览器中按 F12 或右键选择"检查"" />
+          <Step title="打开开发者工具" description="在浏览器中按 F12 或右键选择'检查'" />
           <Step title="切换到 Network 面板" description="点击 Network（网络）选项卡" />
           <Step title="刷新页面或执行操作" description="执行您想要分析的网络操作" />
-          <Step title="导出 HAR 文件" description="右键点击请求列表，选择"Save all as HAR with content"" />
+          <Step title="导出 HAR 文件" description="右键点击请求列表，选择'Save all as HAR with content'" />
         </Steps>
       )
     },

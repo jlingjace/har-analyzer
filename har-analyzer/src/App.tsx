@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { Layout, ConfigProvider, theme as antdTheme } from 'antd';
-import { useAppStore, useTheme } from '@/stores/appStore';
+import { useTheme } from '@/stores/appStore';
 import AppHeader from '@/components/layout/AppHeader';
 import AppSider from '@/components/layout/AppSider';
 import UploadPage from '@/components/pages/UploadPage';
 import AnalysisPage from '@/components/pages/AnalysisPage';
 import HistoryPage from '@/components/pages/HistoryPage';
+import SettingsPage from '@/components/pages/SettingsPage';
 import HelpPage from '@/components/pages/HelpPage';
 import ErrorBoundary from '@/components/common/ErrorBoundary';
 
@@ -46,6 +47,7 @@ const App: React.FC = () => {
                 <Route path="/upload" element={<UploadPage />} />
                 <Route path="/analysis" element={<AnalysisPage />} />
                 <Route path="/history" element={<HistoryPage />} />
+                <Route path="/settings" element={<SettingsPage />} />
                 <Route path="/help" element={<HelpPage />} />
                 <Route path="*" element={<Navigate to="/upload" replace />} />
               </Routes>

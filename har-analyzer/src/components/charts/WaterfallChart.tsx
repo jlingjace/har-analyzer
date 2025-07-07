@@ -37,8 +37,8 @@ const WaterfallChart: React.FC<WaterfallChartProps> = ({
         ]
       }));
 
-    const startTime = Math.min(...requests.map(r => r.value[1]));
-    const endTime = Math.max(...requests.map(r => r.value[2]));
+    const startTime = Math.min(...requests.map(r => Number(r.value[1])));
+    const endTime = Math.max(...requests.map(r => Number(r.value[2])));
 
     const option = {
       title: {
@@ -47,8 +47,8 @@ const WaterfallChart: React.FC<WaterfallChartProps> = ({
       },
       tooltip: {
         trigger: 'item',
-        formatter: (params: any) => {
-          const data = params.data;
+        formatter: (_params: any) => {
+          const data = _params.data;
           const method = data.value[4];
           const status = data.value[5];
           const duration = Math.round(data.value[3]);
@@ -99,7 +99,7 @@ const WaterfallChart: React.FC<WaterfallChartProps> = ({
         {
           name: '请求时间线',
           type: 'custom',
-          renderItem: (params: any, api: any) => {
+          renderItem: (_params: any, api: any) => {
             const categoryIndex = api.value(0);
             const start = api.coord([api.value(1), categoryIndex]);
             const end = api.coord([api.value(2), categoryIndex]);
@@ -145,7 +145,7 @@ const WaterfallChart: React.FC<WaterfallChartProps> = ({
               }
             };
           },
-          data: requests.map((req, index) => req.value),
+          data: requests.map((req, _index) => req.value),
           z: 100
         }
       ]

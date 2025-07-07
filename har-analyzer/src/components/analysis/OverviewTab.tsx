@@ -12,7 +12,7 @@ import { useAnalysisResult } from '@/stores/appStore';
 import ResponseTimeChart from '@/components/charts/ResponseTimeChart';
 import StatusCodeChart from '@/components/charts/StatusCodeChart';
 import DomainChart from '@/components/charts/DomainChart';
-import filesize from 'filesize';
+import { filesize } from 'filesize';
 import styled from 'styled-components';
 
 const MetricCard = styled(Card)`
@@ -96,7 +96,7 @@ const OverviewTab: React.FC = () => {
           <MetricCard>
             <Statistic
               title="传输总量"
-              value={filesize(summary.totalBytes)}
+              value={filesize(summary.totalBytes).toString()}
               prefix={<CloudDownloadOutlined />}
               valueStyle={{ color: '#722ed1' }}
             />

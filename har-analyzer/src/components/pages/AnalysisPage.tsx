@@ -3,14 +3,12 @@ import {
   Tabs, 
   Result, 
   Button, 
-  PageHeader, 
   Space,
   Tag,
   Descriptions 
 } from 'antd';
 import { 
   DownloadOutlined, 
-  ShareAltOutlined,
   FileTextOutlined,
   ClockCircleOutlined
 } from '@ant-design/icons';
@@ -22,7 +20,7 @@ import RequestsTab from '@/components/analysis/RequestsTab';
 import ErrorsTab from '@/components/analysis/ErrorsTab';
 import RecommendationsTab from '@/components/analysis/RecommendationsTab';
 import styled from 'styled-components';
-import filesize from 'filesize';
+import { filesize } from 'filesize';
 
 const AnalysisContainer = styled.div`
   padding: 24px;
@@ -30,10 +28,11 @@ const AnalysisContainer = styled.div`
   overflow: auto;
 `;
 
-const StyledPageHeader = styled(PageHeader)`
+const StyledPageHeader = styled.div`
   background: #fff;
   border-radius: 8px;
   margin-bottom: 16px;
+  padding: 24px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 `;
 
@@ -103,48 +102,55 @@ const AnalysisPage: React.FC = () => {
 
   return (
     <AnalysisContainer>
-      <StyledPageHeader
-        onBack={() => navigate('/upload')}
-        title="HAR 分析结果"
-        subTitle={
+      <StyledPageHeader>
+        <div style={{ marginBottom: '16px' }}>
+          <Space>
+            <Button icon={<FileTextOutlined />} onClick={() => navigate('/upload')}>返回上传</Button>
+            <span style={{ fontSize: '20px', fontWeight: 'bold' }}>HAR 分析结果</span>
+          </Space>
+        </div>
+        <div style={{ marginBottom: '16px' }}>
           <Space>
             <FileTextOutlined />
-            {analysisResult.fileInfo.fileName}
+            <span>{analysisResult.fileInfo.fileName}</span>
           </Space>
-        }
-        tags={[
-          getRiskLevelTag(analysisResult.summary.errorRate),
-          <Tag icon={<ClockCircleOutlined />} key="time">
-            {analysisResult.fileInfo.timeRange.start.toLocaleString()}
-          </Tag>
-        ]}
-        extra={[
-          <Button 
-            key="pdf" 
-            icon={<DownloadOutlined />}
-            onClick={() => handleExport('pdf')}
-          >
-            导出 PDF
-          </Button>,
-          <Button 
-            key="csv" 
-            icon={<DownloadOutlined />}
-            onClick={() => handleExport('csv')}
-          >
-            导出 CSV
-          </Button>,
-          <Button 
-            key="json" 
-            icon={<DownloadOutlined />}
-            onClick={() => handleExport('json')}
-          >
-            导出 JSON
-          </Button>
-        ]}
-      >
+        </div>
+        <div style={{ marginBottom: '16px' }}>
+          <Space>
+            {getRiskLevelTag(analysisResult.summary.errorRate)}
+            <Tag icon={<ClockCircleOutlined />} key="time">
+              {analysisResult.fileInfo.timeRange.start.toLocaleString()}
+            </Tag>
+          </Space>
+        </div>
+        <div>
+          <Space>
+            <Button 
+              key="pdf" 
+              icon={<DownloadOutlined />}
+              onClick={() => handleExport('pdf')}
+            >
+              导出 PDF
+            </Button>
+            <Button 
+              key="csv" 
+              icon={<DownloadOutlined />}
+              onClick={() => handleExport('csv')}
+            >
+              导出 CSV
+            </Button>
+            <Button 
+              key="json" 
+              icon={<DownloadOutlined />}
+              onClick={() => handleExport('json')}
+            >
+              导出 JSON
+            </Button>
+          </Space>
+        </div>
         <Descriptions size="small" column={4}>
           <Descriptions.Item label="文件大小">
-            {filesize(analysisResult.fileInfo.fileSize)}
+            {filesize(analysisResult.fileInfo.fileSize).toString()}
           </Descriptions.Item>
           <Descriptions.Item label="请求总数">
             {analysisResult.summary.totalRequests}
@@ -162,7 +168,7 @@ const AnalysisPage: React.FC = () => {
             {analysisResult.summary.errorRate.toFixed(2)}%
           </Descriptions.Item>
           <Descriptions.Item label="传输总量">
-            {filesize(analysisResult.summary.totalBytes)}
+            {filesize(analysisResult.summary.totalBytes).toString()}
           </Descriptions.Item>
           <Descriptions.Item label="涉及域名">
             {analysisResult.summary.uniqueDomains} 个
