@@ -6,6 +6,8 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-4.9+-blue.svg)](https://www.typescriptlang.org/)
 [![React](https://img.shields.io/badge/React-18.2+-61dafb.svg)](https://reactjs.org/)
 
+产品体验链接：https://har-analyzer-six.vercel.app/
+
 ## ✨ 特性
 
 - 🔒 **隐私安全** - 所有数据在本地处理，不上传服务器
